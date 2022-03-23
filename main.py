@@ -5,24 +5,30 @@ idiv = pd.read_csv("data/idiv.csv", sep=';')
 
 REQUEST_BASE_URL = 'https://statusinvest.com.br/acao/companytickerprovents?ticker={}&chartProventsType=2'
 
-lista_ativos = idiv['codigo'].to_list()
+ativos_idiv = idiv['codigo'].to_list()
 
-df = pd.DataFrame()
+def dividend_info(ativos: list) -> pd.DataFrame:
 
-for codigo in lista_ativos:
+    df = pd.DataFrame()
 
-    res = requests.get(REQUEST_BASE_URL.format(codigo))
+    for codigo in ativos:
 
-    d = dict(res.json())
+        res = requests.get(REQUEST_BASE_URL.format(codigo))
 
-    data = pd.DataFrame(d['assetEarningsYearlyModels'])
+        d = dict(res.json())
 
-    data = data.assign(stock = codigo)
+        data = pd.DataFrame(d['assetEarningsYearlyModels'])
 
-    data.rename(columns = {'rank':'year', 'value':'dividend_per_share'}, inplace = True)
+        data = data.assign(stock = codigo)
 
-    data = data[['stock', 'year', 'dividend_per_share']] # reorder columns
+        data = data.rename(columns = {'rank':'year', 'value':'dividend_per_share'})
 
-    df = df.append(data)
+        data = data[['stock', 'year', 'dividend_per_share']] # reorder columns
+
+        df = df.append(data)
+    
+    return df
+
+df = dividend_info(ativos = ativos_idiv)
 
 print(df)
