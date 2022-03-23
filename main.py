@@ -34,4 +34,6 @@ def dividend_info(ativos: list) -> pd.DataFrame:
 
 df = dividend_info(ativos=ativos_idiv)
 
+# df.to_csv('data/dividend_per_share.csv')
+
 print(df)
