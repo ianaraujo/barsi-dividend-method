@@ -1,9 +1,11 @@
 import requests
 import pandas as pd
 
+idiv = pd.read_csv("data/idiv.csv", sep=';')
+
 REQUEST_BASE_URL = 'https://statusinvest.com.br/acao/companytickerprovents?ticker={}&chartProventsType=2'
 
-lista_ativos = ['BBAS3', 'ABEV3']
+lista_ativos = idiv['codigo'].to_list()
 
 df = pd.DataFrame()
 
@@ -19,10 +21,8 @@ for codigo in lista_ativos:
 
     data.rename(columns = {'rank':'year', 'value':'dividend_per_share'}, inplace = True)
 
-    data = data[['stock', 'year', 'dividend_per_share']]
+    data = data[['stock', 'year', 'dividend_per_share']] # reorder columns
 
     df = df.append(data)
 
 print(df)
-
-# idiv = pd.read_csv('~/Projects/python/barsi-dividend-method/data/idiv.csv')
