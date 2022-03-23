@@ -1,0 +1,1 @@
+# barsi-dividend-method
