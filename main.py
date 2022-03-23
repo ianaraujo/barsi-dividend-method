@@ -7,6 +7,7 @@ REQUEST_BASE_URL = 'https://statusinvest.com.br/acao/companytickerprovents?ticke
 
 ativos_idiv = idiv['codigo'].to_list()
 
+
 def dividend_info(ativos: list) -> pd.DataFrame:
 
     df = pd.DataFrame()
@@ -19,16 +20,18 @@ def dividend_info(ativos: list) -> pd.DataFrame:
 
         data = pd.DataFrame(d['assetEarningsYearlyModels'])
 
-        data = data.assign(stock = codigo)
+        data = data.assign(stock=codigo)
 
-        data = data.rename(columns = {'rank':'year', 'value':'dividend_per_share'})
+        data = data.rename(
+            columns={'rank': 'year', 'value': 'dividend_per_share'})
 
-        data = data[['stock', 'year', 'dividend_per_share']] # reorder columns
+        data = data[['stock', 'year', 'dividend_per_share']]  # reorder columns
 
         df = df.append(data)
-    
+
     return df
 
-df = dividend_info(ativos = ativos_idiv)
+
+df = dividend_info(ativos=ativos_idiv)
 
 print(df)
