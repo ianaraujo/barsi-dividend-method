@@ -34,6 +34,6 @@ def dividend_info(ativos: list) -> pd.DataFrame:
 
 df = dividend_info(ativos=ativos_idiv)
 
-mean_dividen_5y = df['dividend_per_share'].groupby(df['stock']).mean()
+df = df[df['year'].between(2017, 2021)]
 
-# df.to_csv('data/dividend_per_share.csv')
+mean_dividend_5y = pd.DataFrame(df['dividend_per_share'].groupby(df['stock']).mean())
