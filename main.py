@@ -34,4 +34,5 @@ def dividend_info(ativos: list) -> pd.DataFrame:
 
 df = dividend_info(ativos=ativos_idiv)
 
-print(df)
+df_dividend = df.groupby('stock')[['dividend_per_share']].mean()
+
